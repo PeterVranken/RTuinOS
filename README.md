@@ -41,25 +41,33 @@ What's new in Release 1.0?
 --------------------------
 
 The makefile has been revised:
-  Different operating systems, Windows, Linux and Mac OS, are now
+
+Different operating systems, Windows, Linux and Mac OS, are now
 supported.
-  Path conventions are now obeyed: Usage of forward slashes and a trailing
+
+Path conventions are now obeyed: Usage of forward slashes and a trailing
 slash in path names.
-  Tools are addressed by absolute paths to avoid conflicts with improperly
+
+Tools are addressed by absolute paths to avoid conflicts with improperly
 set PATH variable.
-  The build of different test cases has been decoupled; now each one has
+
+The build of different test cases has been decoupled; now each one has
 its own build folder. A clean is no longer necessary when switching the
 application.
-  The creation of required working directories has been integrated into
+
+The creation of required working directories has been integrated into
 the build. Directory creation is no longer a build rule, which has to be
 called explicitly.
-  The makefile has been split in parts. The configuration part is now
+
+The makefile has been split in parts. The configuration part is now
 separated and clearly recognizable and readable to the user. The invariant
 parts of the makefile have been hidden in a sub-directory.
-  A kind of "callback" is made into the application folder. An (optional)
+
+A kind of "callback" is made into the application folder. An (optional)
 makefile fragment located in the application folder will be included into
 the build and permits to override general settings in an application
 related fashion.
+
 
 Support of Arduino 1.0.5, the current release as of today (31.7.2013)
   All test cases can be built and run with Arduino 1.0.5.
