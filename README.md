@@ -1,7 +1,7 @@
 What is RTuinOS?
 ----------------
 
-RTuinOS is a small scale real time operating system for Arduino. The main
+RTuinOS is a small scale real-time operating system for Arduino. The main
 documentation is found as doc\manual\RTuinOS-1.0-UserGuide.pdf. The hints
 given here are just a brief summary of what's stated there.
 
