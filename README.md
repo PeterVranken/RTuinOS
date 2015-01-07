@@ -2,8 +2,9 @@ RTuinOS, an Event based RTOS for the popular Arduino Platform
 =============================================================
 
 RTuinOS is a small scale real-time operating system for Arduino. The main
-documentation is found as doc\manual\RTuinOS-1.0-UserGuide.pdf. The hints
-given here are just a brief summary of what's stated there.
+documentation is found as doc\manual\RTuinOS-1.0-UserGuide.pdf in the
+downloadable [archive](RTuinOS-1.0.2.zip "setup"). The hints given here
+are just a brief summary of what's stated there.
 
 This distribution has been compiled for Arduino 1.0.5 under Windows, Linux
 or Mac OS. Only the Mega 2560 board is supported just like that. In the
