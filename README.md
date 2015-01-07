@@ -1,9 +1,6 @@
 RTuinOS, an Event based RTOS for the popular Arduino Platform
 =============================================================
 
-What is RTuinOS?
-----------------
-
 RTuinOS is a small scale real-time operating system for Arduino. The main
 documentation is found as doc\manual\RTuinOS-1.0-UserGuide.pdf. The hints
 given here are just a brief summary of what's stated there.
@@ -42,9 +39,8 @@ sufficient.)
 Developing an RTuinOS application means to work with a makefile controlled
 build environment. Eclipse, Emacs or any kind of command shell can be used
 to run the build process. It's not necessary to use the original Arduino
-IDE and the programming language C becomes proper C again; nothing is
-obscured by the IDE. The IDE is however still a good choice for a terminal
-program for the communication with the running RTuinOS application.
+IDE; it's however still a good choice for a terminal program for the
+communication with the running RTuinOS application.
 
 
 
@@ -79,7 +75,7 @@ What's new in Release 1.0?
     the build and permits to override general settings in an application
     related fashion.
     
-- Support of Arduino 1.0.5, the current release as of today (31.7.2013)
+- Support of Arduino 1.0.5, the current release as of today (31.7.2013).
   All test cases can be built and run with Arduino 1.0.5.
   
 - Support of mutexes and semaphores. The existing concept of events has been
