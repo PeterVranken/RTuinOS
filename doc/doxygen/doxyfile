@@ -31,13 +31,13 @@ PROJECT_NAME = RTuinOS
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER = 1.0
+PROJECT_NUMBER = 1.0.3
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer
 # a quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF = "Small Scale RTOS for Arduino 1.0.5"
+PROJECT_BRIEF = "Small Scale RTOS for Arduino 1.8.13"
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is 
 # included in the documentation. The maximum height of the logo should not 

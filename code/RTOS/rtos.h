@@ -33,11 +33,11 @@
  */
 
 /** Version string of RTuinOS. */
-#define RTOS_RTUINOS_VERSION    "1.0"
+#define RTOS_RTUINOS_VERSION    "1.0.3"
 
 /** Startup message for RTuinOS applications. */
 #define RTOS_RTUINOS_STARTUP_MSG                                                        \
-    "RTuinOS " RTOS_RTUINOS_VERSION " for Arduino 1.0.5\n"                              \
+    "RTuinOS " RTOS_RTUINOS_VERSION " for Arduino 1.8.13\n"                              \
     "Copyright (C) 2012-2013 Peter Vranken (mailto:Peter_Vranken@Yahoo.de)\n"           \
     "This is free software; see the source for copying conditions. There is NO\n"       \
     "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
