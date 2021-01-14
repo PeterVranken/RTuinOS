@@ -1,0 +1,106 @@
+/*! @mainpage Software Documentation for RTuinOS
+
+@section secIntro Introduction
+
+Arduino (www.arduino.cc) is a popular open source and open hardware micro
+controller platform for various purposes, mainly located in leisure time
+projects. Arduino comes along with a simple to use integrated development
+environment, which contains the complete tool chain to write source code,
+to browse through samples and libraries, to compile and link the software
+and to upload it to the board and flash it. The RTuinOS project adds
+the programming paradigm of a real time operating system to the Arduino
+world.
+
+Real time operating systems, or RTOS, strongly simplify the implementation
+of technical applications which typically do things in a quite regular
+way, like checking inputs and setting outputs accordingly every (fixed)
+fraction of a second. For example, the temperature controller for a
+heating installation could be designed this way. Temperature sensors,
+which report the room temperatures are evaluated and the burner and maybe
+some valves are controlled to yield the desired target temperature.
+Furthermore, using a real time system the program could coincidentally and
+regularly update a display to provide feedback - at the same or any other
+rate. Regular, time based programming can be done without the need of CPU
+consuming waiting loops as used in the implementation of Arduino's library
+functions \a delay and \a delayMicroseconds. Real time operating systems
+characterize the professional use of micro controllers.
+
+RTuinOS is a small real time operating system (RTOS) for the Arduino
+environment. It is simple to use and fits well into the existing Arduino
+code environment. It adds the concept of pseudo-parallel execution threads
+to the sketches.
+
+The traditional Arduino sketch has two entry points; the function
+\a setup, which is the place to put the initialization code required
+to run the sketch and function \a loop, which is periodically
+called. The frequency of looping is not deterministic but depends on
+the execution time of the code inside the loop.
+
+Using RTuinOS, the two mentioned functions continue to exist and continue
+to have the same meaning. However, as part of the code initialization in
+\a setup you may define a number of tasks having individual properties.
+The most relevant property of a task is a C code function, which becomes
+the so called task function. Once entering the traditional Arduino loop,
+all of these task functions are executed in parallel to one another and to
+the repeated execution of function \a loop. We say, \a loop becomes the
+idle task of the RTOS.
+
+A characteristic of RTuinOS is that the behavior of a task is not fully
+predetermined at compile time. RTuinOS supports regular, time-controlled
+tasks as well as purely event controlled ones. Tasks can be preemptive or
+behave cooperatively. Task scheduling can be done using time slices and a
+round robin pattern. Moreover, many of these modes can be mixed. A task is
+not per se regular, its implementing code decides what happens and this
+can be decided context or situation dependent. This flexibility is
+achieved by the basic idea of having an event controlled scheduler, where
+typical RTOS use cases are supported by providing according events, e.g.
+absolute-point-in-time-reached. If the task's code decides to always wait
+for the same absolute-point-in-time-reached event, then it becomes a
+regular task. However, situation dependent the same task could decide to
+wait for an application sent event - and give up its regular behavior. In
+many RTOS implementations the basic characteristic of a task is determined
+at compile time, in RTuinOS this is done partly at compile time and partly
+at runtime.
+
+RTuinOS is provided as a single source code file which is compiled together
+with your other code, which now becomes an RTuinOS application. In the most
+simple case, if you do not define any task, your application will strongly
+resemble a traditional sketch: You implement your \a setup and your
+\a loop function; the former will be run once at the beginning and
+the latter repeatedly.
+
+RTuinOS on its own can't be compiled, there need to be an application.
+RTuinOS is organized as a package which combines the RTuinOS source file
+with some sample applications which are the test cases at the same time.
+The source code of each sample application is held in a separate folder,
+named tc<nn>. Any of these can be selected for compilation. You may add
+more folders, holding the source code of your RTuinOS applications. A
+starting point of your application folder can be a copy of any of the
+folders tc<nn>. The compilation always is the same. Run the makefile,
+where the name of the folder (which doesn't need to be tc<nn>) is an
+option on the command line. Refer to the user guide for more.
+
+The most relevant document to read is the manual of RTuinOS, found as
+RTuinOS-1.0-UserGuide.pdf. It introduces the basic concept of RTuinOS and
+gives an overview of its features and limitations:
+
+Chapter 2 explains the basic principles of operation. Some core
+considerations of the implementation are highlighted, but the relevant
+documentation of the implementation is the code itself. It is commented
+using doxygen (www.doxygen.org) tags; the compiled doxygen documentation
+is part of the project. It contains only the documentation of the global
+objects of RTuinOS; to fully understand the implementation you will have
+to inspect the source code itself, please refer to rtos.c, rtos.h and
+rtos.config.template.h.
+
+Chapter 3 lists and documents all elements of RTuinOS' API.
+
+Chapter 4 explains how to write a well-working RTuinOS application. The
+chapter starts with a short recipe, which guarantees soon success. The
+details of the makefile are explained and how to customize the build
+process to your needs. Here is where you may start reading if you are
+already familiar with the concept of an RTOS.
+
+The user guide closes with chapter 5, which gives an overview of possible
+improvements and still missing and maybe later released features.
+*/

@@ -4,13 +4,13 @@ RTuinOS, an Event based RTOS for the popular Arduino Platform
 RTuinOS is a small scale real-time operating system for Arduino. The [main
 documentation](RTuinOS-1.0-UserGuide.pdf "manual") is found as
 doc\manual\RTuinOS-1.0-UserGuide.pdf in the [downloadable
-archive](RTuinOS-1.0.2.zip "complete setup"). The hints given here are
+archive](RTuinOS-1.0.3.zip "complete setup"). The hints given here are
 just a brief summary of what's stated there.
 
-This distribution has been compiled for Arduino 1.0.5 under Windows, Linux
-or Mac OS. Only the Mega 2560 board is supported just like that. In the
-user guide, in the source code and by compiler error directives you'll get
-hints how to modify the code for other Arduino boards.
+This distribution has been compiled for Arduino 1.8.13 under Windows, Linux
+or Mac OS. Only the Mega 2560 and Uno boards are supported just like that. 
+In the user guide, in the source code and by compiler error directives you'll
+get hints how to modify the code for other Arduino boards.
 
 The Arduino environment can be got at www.Arduino.cc. It needs to be
 installed and operational. Before using RTuinOS ensure that the original
@@ -25,7 +25,7 @@ The link between the RTuinOS build environment (GNU make based) and the
 Arduino installation is made by means of a new environment variable. You
 need to create the variable ARDUINO_HOME prior to opening any shell
 window. ARDUINO_HOME holds the path to the Arduino installation, like
-C:\ProgramFiles\arduino-1.0.5 under Windows.
+C:\ProgramFiles\arduino-1.8.13 under Windows.
 
 Caution: No blanks in paths are permitted, and this holds true also for
 the Arduino installation files. An Arduino installation at e.g.
@@ -46,8 +46,10 @@ communication with the running RTuinOS application.
 
 
 
-What's new in Release 1.0?
+What's new in Release 1.0.3?
 --------------------------
+
+- Added support for Arduino Uno
 
 - The makefile has been revised:
   
@@ -77,8 +79,8 @@ What's new in Release 1.0?
     the build and permits to override general settings in an application
     related fashion.
     
-- Support of Arduino 1.0.5, the current release as of today (31.7.2013).
-  All test cases can be built and run with Arduino 1.0.5.
+- Support of Arduino 1.8.13, the current release as of today (14.1.2021).
+  All test cases can be built and run with Arduino 1.8.13.
   
 - Support of mutexes and semaphores. The existing concept of events has been
   extended. An event can now be of kind ordinary (broadcasted event, as

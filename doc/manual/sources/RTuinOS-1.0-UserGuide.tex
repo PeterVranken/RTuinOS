@@ -1,0 +1,78 @@
+\documentclass[10pt,twoside,a4paper,openany]{report}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage{graphicx}
+%\usepackage[table]{xcolor}
+
+% How to write RTuinOS?
+\newcommand{\rtos}{RT\-\emph{uin}\-OS}
+
+% Define titlepage
+\title{\rtos{} \linebreak
+       -- A Real Time Operating System for Arduino -- \linebreak
+       Version 1.0 \linebreak
+       User Guide}
+\author{Peter Vranken}
+\date{July 2013}
+
+% Place chapter name and page number in the head of each page.
+\pagestyle{headings}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks, 
+            citecolor=black,
+            filecolor=black,
+            linkcolor=black,
+            urlcolor=black,
+            bookmarksopen=false}
+
+
+% The standard page filling is unsatisfyingly. Change it.
+\textwidth160mm \textheight220mm
+\addtolength{\oddsidemargin}{-10mm}
+\addtolength{\evensidemargin}{-25mm}
+\addtolength{\topmargin}{-10mm}
+
+% Set the depth of the table of contents. The number plus 1 states the
+% largest number of dot spearated section numbers appearing in the TOC.
+% State e.g. 2 to get 1.2.3 as deepest nested section in the TOC.
+\setcounter{tocdepth}{3}
+
+% A tiny macro to simplify the usage of the figure environment.
+\newcommand{\incFigFile}[3]{\begin{figure}\centering\includegraphics[width=#3\textwidth]{#1}\caption{#2}\label{fig#1}\end{figure}}
+
+% Technical terms like identifiers (object and function names) should be
+% emphasized. Place them in the ident command.
+\newcommand{\ident}[1]{\textit{#1}}
+
+\begin{document}
+
+% Create titlepage
+\maketitle
+
+\bigskip
+\begin{quote}
+    Copyright \copyright{} 2012-2013  Peter Vranken, mailto:Peter\_Vranken@Yahoo.de
+    
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.3
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+    A copy of the license is included in the section entitled ``GNU
+    Free Documentation License''.
+\end{quote}
+\bigskip
+
+
+\tableofcontents \phantomsection
+%\listoffigures \phantomsection
+%\listoftables \phantomsection
+
+\input{chapReferences}
+\input{chapAbbrev}
+\input{chapIntroduction}
+\input{chapXXX}
+\input{GNUFreeDocumentationLicense}
+
+\end{document}
