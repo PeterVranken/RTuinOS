@@ -173,6 +173,8 @@ void rtos_enableIRQTimerTic(void)
          Here, we found on this setting (in order to not disturb any PWM related libraries)
        and just enable the overflow interrupt. */
     TIMSK2 |= _BV(TOIE2);
+#elif defined __AVR_ATmega328P__
+    TIMSK2 |= _BV(TOIE2);
 #else
 # error Modifcation of code for other AVR CPU required
 #endif

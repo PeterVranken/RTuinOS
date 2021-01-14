@@ -188,6 +188,15 @@
     sei();                                                                  \
                                                                             \
 } /* End of macro rtos_enterCriticalSection */
+#elif defined __AVR_ATmega328P__
+# define rtos_enterCriticalSection()                                        \
+{                                                                           \
+    cli();                                                                  \
+    TIMSK2 &= ~_BV(TOIE2);                                                  \
+    ADCSRA &= ~_BV(ADIE);                                                   \
+    sei();                                                                  \
+                                                                            \
+} /* End of macro rtos_enterCriticalSection */
 #else
 # error Modification of code for other AVR CPU required
 #endif
@@ -209,10 +218,18 @@
     sei();                                                                  \
                                                                             \
 } /* End of macro rtos_leaveCriticalSection */
+#elif defined __AVR_ATmega328P__
+# define rtos_leaveCriticalSection()                                        \
+{                                                                           \
+    cli();                                                                  \
+    TIMSK2 |= _BV(TOIE2);                                                   \
+    ADCSRA |= _BV(ADIE);                                                    \
+    sei();                                                                  \
+                                                                            \
+} /* End of macro rtos_leaveCriticalSection */                                                                        
 #else
 # error Modifcation of code for other AVR CPU required
 #endif
-
 
 
 
