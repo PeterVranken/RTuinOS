@@ -308,10 +308,7 @@ $(targetDir)$(project).hex: $(targetDir)$(project).elf
 	$(avr-objcopy) -O ihex -R .eeprom $< $@
 
 # Upload compiled software on the controller.
-#   Option -cWiring: The Arduino IDE uses a quite similar protocol which unfortunately
-# requires an additional, preparatory reset command. This protocol can't therefore be
-# applied in an automated process. Here we need to use protocol Wiring instead. Use -c? to
-# get a list of options.
+#   Option -c arduino: Use the arduino programming protocol.
 #   Option -p: Run avrdude with -C... -p? to get a list of supported controllers.
 .PHONY: upload
 upload: makeDir																				\

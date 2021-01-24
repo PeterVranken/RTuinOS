@@ -101,7 +101,13 @@
       If an application redefines the interrupt source, the new source will probably
     produce another system clock frequency. If so, the macro #RTOS_TIC needs to be redefined
     also. */
+#ifdef __AVR_ATmega2560__
 #define RTOS_ISR_SYSTEM_TIMER_TIC TIMER4_OVF_vect
+#elif defined __AVR_ATmega328P__
+#define RTOS_ISR_SYSTEM_TIMER_TIC TIMER1_OVF_vect
+#else
+#error Modifcation of code for other AVR CPU required
+#endif
 
 
 /** The system timer tic has been changed to 1 ms. Here, it is defined as floating point
@@ -180,15 +186,23 @@
  *   @see #RTOS_USE_APPL_INTERRUPT_00
  *   @see #RTOS_USE_APPL_INTERRUPT_01
  */
-# define rtos_enterCriticalSection()                                        \
+#define rtos_enterCriticalSection()                                        \
 {                                                                           \
     cli();                                                                  \
     TIMSK4 &= ~_BV(TOIE4);                                                  \
     sei();                                                                  \
                                                                             \
 } /* End of macro rtos_enterCriticalSection */
+#elif defined __AVR_ATmega328P__
+#define rtos_enterCriticalSection()                                        \
+{                                                                           \
+    cli();                                                                  \
+    TIMSK1 &= ~_BV(TOIE1);                                                  \
+    sei();                                                                  \
+                                                                            \
+} /* End of macro rtos_enterCriticalSection */
 #else
-# error Modification of code for other AVR CPU required
+#error Modification of code for other AVR CPU required
 #endif
 
 
@@ -200,13 +214,19 @@
  * This macro is the counterpart of #rtos_enterCriticalSection. Please refer to
  * #rtos_enterCriticalSection for deatils.
  */
-# define rtos_leaveCriticalSection()                                        \
+#define rtos_leaveCriticalSection()                                        \
 {                                                                           \
     TIMSK4 |= _BV(TOIE4);                                                   \
                                                                             \
 } /* End of macro rtos_leaveCriticalSection */
+#elif defined __AVR_ATmega328P__
+#define rtos_leaveCriticalSection()                                        \
+{                                                                           \
+    TIMSK1 |= _BV(TOIE1);                                                   \
+                                                                            \
+} /* End of macro rtos_leaveCriticalSection */                                                                         
 #else
-# error Modifcation of code for other AVR CPU required
+#error Modifcation of code for other AVR CPU required
 #endif
 
 

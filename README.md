@@ -81,7 +81,7 @@ What's new in Release 1.0.3?
     
 - Support of Arduino 1.8.13, the current release as of today (14.1.2021).
   All test cases can be built and run with Arduino 1.8.13.
-  NOTE: test cases 5 and 8 support only Arduino Mega 2560!
+  NOTE: Example 8 supports only Arduino Mega 2560!
   
 - Support of mutexes and semaphores. The existing concept of events has been
   extended. An event can now be of kind ordinary (broadcasted event, as

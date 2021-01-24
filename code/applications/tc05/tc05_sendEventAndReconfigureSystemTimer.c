@@ -222,6 +222,33 @@ void rtos_enableIRQTimerTic(void)
     OCR4A = 1000u;
 
     TIMSK4 |= 1;    /* Enable overflow interrupt. */
+#elif defined __AVR_ATmega328P__
+    /* Timer 1 is reconfigured. Arduino has put it into 8 Bit fast PWM mode. We need the
+       phase and frequency correct mode, in which the frequency can be controlled by
+       register OCA. This register is buffered, the CPU writes into the buffer only. After
+       each period, the buffered value is read and determines the period duration of the
+       next period. The period time (and thus the frequency) can be varied in a well
+       defined and glitch free manner. The settings are:
+         WGM4 = %1001, the mentioned operation mode is selected. The 4 Bit word is partly
+       found in TCCR1A and partly in TCCR1B.
+         COM1A/B/C: don't change. The three 2 Bit words determine how to derive up to
+       three PWM output signals from the counter. We don't change the Arduino setting; no
+       PWM wave form is generated. The three words are found as the most significant 6 Bit
+       of register TCCR1A.
+         OCR4A = 1 MHz/f_irq, the frequency determining 16 Bit register. OCR1A must not
+       be less than 3.
+         CS1 = %010, the counter selects the CPU clock divided by 8 as clock. */
+    TCCR1A &= ~0x03; /* Lower half word of WGM */
+    TCCR1A |=  0x01;
+
+    TCCR1B &= ~0x1f; /* Upper half word of WGM and CS */
+    TCCR1B |=  0x12;
+
+    /* We choose OCR1A = 1000, or f_irq = 1000 Hz. This is more than double the system
+       clock of RTuinOS in its standard configuration. */
+    OCR1A = 1000u;
+
+    TIMSK1 |= 1;    /* Enable overflow interrupt. */
 #else
 # error Modification of code for other AVR CPU required
 #endif
