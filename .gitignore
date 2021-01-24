@@ -1,8 +1,11 @@
 # Object files
+bin/
 *.o
 *.ko
 *.obj
 *.elf
+*.d
+nul
 
 # Precompiled Headers
 *.gch

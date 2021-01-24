@@ -1,0 +1,117 @@
+\chapter{Introduction}
+\label{secInrto}
+
+Arduino\footnote{See www.arduino.cc} is a popular open source and open
+hardware micro controller platform for various purposes, mainly located in leisure
+time projects. Arduino comes along with a simple to use integrated
+development en\-vi\-ron\-ment, which contains the complete tool chain to
+write source code, to browse through samples and libraries, to compile and
+link the software and to upload it to the board and flash it. The
+\rtos{} project adds the programming paradigm of a real time operating
+system to the Arduino world.
+
+Real time operating systems, or RTOS, strongly simplify the implementation
+of technical applications which typically do things in a quite regular
+way, like checking inputs and setting outputs accordingly every (fixed)
+fraction of a second. For example, the temperature controller for a
+heating installation could be designed this way. Temperature sensors,
+which report the room temperatures are evaluated and the burner and maybe
+some valves are controlled to yield the desired target temperature.
+Furthermore, using a real time system the program could coincidentally and
+regularly update a display to provide feedback -- at the same or any other
+rate. Regular, time based programming can be done without the need of CPU
+consuming waiting loops as used in the implementation of Arduino's library
+functions \ident{delay} and \ident{delayMicroseconds}. Real time operating
+systems characterize the professional use of micro controllers.
+
+\rtos{} is a small real time operating system (RTOS) for the Arduino
+environment. It is simple to use and fits well into the existing Arduino
+code environment. It adds the concept of pseudo-parallel execution threads
+to the sketches.
+%These threads are basically preemptive but can be configured to implement
+%deliberate, cooperative task switching, too. Events can be sent and
+%received by tasks as a simple kind of communication.
+
+The traditional Arduino sketch has two entry points; the function
+\ident{setup}, which is the place to put the initialization code required
+to run the sketch and function \ident{loop}, which is periodically
+called. The frequency of looping is not deterministic but depends on
+the execution time of the code inside the loop.
+
+Using \rtos{}, the two mentioned functions continue to exist and continue
+to have the same meaning. However, as part of the code initialization in
+\ident{setup} you may define a number of tasks having individual
+properties. The most relevant property of a task is a C code
+function\footnote{The GNU C compiler is quite uncomplicated in mixing C
+and C++ files. Although \rtos{} is written in C it's no matter do
+implement task functions in C++ if only the general rules of combining C
+and C++ and the considerations about using library functions (particularly
+\ident{new}) in a multi-tasking environment are obeyed. Non-static class
+member functions are obviously no candidates for a task function.}, which
+becomes the so called task function. Once entering the traditional Arduino
+loop, all of these task functions are executed in parallel to one another
+and to the repeated execution of function \ident{loop}. We say,
+\ident{loop} becomes the idle task of the RTOS.
+
+A characteristic of \rtos{} is that the behavior of a task is not fully
+predetermined at compile time. \rtos{} supports regular, time-controlled
+tasks as well as purely event controlled ones, where events can be
+broadcasted or behave as mutex or semaphore. Tasks can be preemptive or
+interact cooperatively. Task scheduling can be done using time slices and
+a round robin pattern. Moreover, many of these modes can be mixed. A task
+is not per se regular, its implementing code decides what happens and this
+can be decided context or situation dependent. This flexibility is
+achieved by the basic idea of having an event controlled scheduler, where
+typical RTOS use cases are supported by providing according events, e.g.
+absolute-point-in-time-reached. If the task's code decides to always wait
+for the same absolute-point-in-time-reached event, then it becomes a
+regular task. However, situation dependent the same task could decide to
+wait for an application sent event -- and give up its regular behavior. In
+many RTOS implementations the basic characteristic of a task is determined
+at compile time, in \rtos{} this is done partly at compile time and partly
+at runtime.
+
+\rtos{} is provided as a single source code file which is compiled together
+with your other code, which now becomes an \rtos{} application. In the most
+simple case, if you do not define any task, your application will strongly
+resemble a traditional sketch: You implement your \ident{setup} and your
+\ident{loop} function; the former will be run once at the beginning and
+the latter repeatedly.
+
+\rtos{} on its own can't be compiled, there need to be an application.
+\rtos{} is organized as a package which combines the \rtos{} source file
+with some sample applications which are the test cases at the same time.
+The source code of each sample application is held in a separate folder,
+named tc\textless nn\textgreater. Any of these can be selected for
+compilation. You may add more folders, holding the source code of your
+\rtos{} applications. A starting point of your application folder can be a
+copy of any of the folders tc\textless nn\textgreater. The compilation
+always is the same. Run the makefile, where the name of the folder (which
+doesn't need to be tc\textless nn\textgreater) is an option on the
+command line. See section \ref{secMakefile} for more.
+
+This document introduces the basic concept of \rtos{} and gives an
+overview of its features and limitations:
+
+Chapter \ref{secHowDoesRTuinOSWork} explains the basic principles of
+operation. Some core considerations of the implementation are highlighted,
+but the relevant documentation of the implementation is the code itself.
+It is commented using doxygen\footnote{See http://www.doxygen.org} tags;
+the compiled doxygen documentation is part of this project. It contains
+only the documentation of the global objects of \rtos; to fully understand
+the implementation you will have to inspect the source code itself, please
+refer to \refRTOSC, \refRTOSH, \refRTOSConfigTemplateH.
+
+
+Chapter \ref{secAPI} lists and documents all elements of
+\rtos' API.
+
+Chapter \ref{secHowToWriteApp} explains how to write a well-working
+\rtos-application. The chapter starts with a short recipe, which
+guarantees soon success. Here is where you may start reading if you are
+already familiar with the concept of an RTOS.
+
+The manual closes with chapter \ref{secOutlook}, which gives an overview
+of possible improvements and still missing and maybe later released
+features.
+

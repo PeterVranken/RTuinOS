@@ -1,0 +1,61 @@
+\chapter*{References}
+\label{secDocReferences}
+
+% A list of references to each quoted or mentioned external document. In
+% your document you may write "please refer to \refL2Kurz2, page 23"
+% instead of writing the title. Your document will then contain "please
+% refer to [1], page 23".
+\def\refRTOSC{[1]}
+\def\refRTOSH{[2]}
+\def\refRTOSConfigTemplateH{[3]}
+\def\refRTOSConfigH{[4]}
+\def\refRTOSAssertH{[5]}
+\def\refATmegaManual{[6]}
+\def\refGSLSystemLoadC{[7]}
+\def\refGSLSystemLoadH{[8]}
+% TODO Add a new reference here
+
+\begin{longtable}[c]{|c|p{5.5cm}|p{8.0cm}|}
+\hline
+& Document & Explanation \\ \hline
+\endfirsthead
+\hline
+ID & Document & Explanation \\ \hline
+\hline
+\endhead
+\caption[]{References (continued on next page)}
+\endfoot
+\caption{References} \label{tabDocReferences}
+\endlastfoot
+\hline
+\refRTOSC & code/RTOS/rtos.c
+          & C source code file of \rtos{}
+\\ \hline
+\refRTOSH & code/RTOS/rtos.h
+          & Header file of \rtos{}, declaring the API
+\\ \hline
+\refRTOSConfigTemplateH & code/RTOS/rtos.\-config.\-tem\-plate.h 
+                        & Compile time configuration of \rtos{} (template file)
+\\ \hline
+\refRTOSConfigH & rtos.config.h
+                & Application owned compile time configuration of \rtos{}, derived
+                  from \refRTOSConfigTemplateH
+\\ \hline
+\refRTOSAssertH & code/RTOS/rtos\-\_assert.h
+                & Macro definition supporting code self-diagnosis
+\\ \hline
+\refATmegaManual & doc2549.pdf, e.g. at www.\-atmel.\-com/\-Ima\-ges/\-doc\-2549.pdf
+                 & User manual of CPU ATmega2560 and others
+\\ \hline
+\refGSLSystemLoadC 
+  & code/RTOS/gsl\-\_sys\-tem\-Load.c
+  & System load estimation
+\\ \hline
+\refGSLSystemLoadH
+  & code/RTOS/gsl\-\_sys\-tem\-Load.h
+  & Definition of global interface of system load estimation
+\\ \hline
+% TODO: Add a new document title here
+\end{longtable}
+
+

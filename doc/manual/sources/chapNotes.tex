@@ -1,0 +1,122 @@
+% This source file collects notes and ideas for the manual. It is not yet
+% editted, usable text and is not part of the compilation of the manual.
+
+\chapter{Collected Notes}
+
+What is real time? Round Robin isn't. Jitter is accepted.
+
+Idle task may set an event but may not suspend in any way. If it sets an
+event it can be sure that the awaked task has completed all related data
+processing until idle gets reactivated again. Therefore, a
+producer-consumer solution can be implemented with a single event as
+access synchronization, no ECS/LCS needs to be applied. (Explain why and
+generalize this idea to any pair of tasks of different priority classes.)
+
+Consumer/producer with bi-directional synchronization however only on same
+prio level. Otherwise we would need a postAndWaitFor operation. Set an
+event and wait for the same or others. However: What is a real use case?
+Why then not using a single task and sub-routines?
+
+Compiler assumptions/prerequisites:
+  naked, no prologue
+  no local data in stack frame
+  parameters in registers, without using stack frame: Problem with .O0 (http://lists.gnu.org/archive/html/avr-gcc-list/2012-08/msg00014.html)
+  r24/r25 for return value 
+
+
+    Idea: A task needs to return a value at restore context when and only when it is
+    activated the very first time after it had been suspended. (It will not return a value
+    if it is activated from an interruption by another task of higher priority or because
+    of a round-robin cycle.) Prove: The
+    task gets suspended only on its own demand by calling one of the suspend functions
+    and these functions have a return value. (Exception is task initialization: if we set
+    r24/25 now, it'll become the function parameter. This inhibits a general purpose
+    parameter but generalizes the start of a task: It can be started by any combination of
+    events and its parameter tells how it actually was.)
+      Thus: The activation will check the event vector. If not null the task is awaked,
+    thus activated the first time after suspension. Now the event vector is returned and
+    reset in the task array. If we find event vector equal to null, the task is activated
+    for continuation, not after a suspend, and the completed pushed context is restored.
+      In the first case, we will overwrite r24/25 with the return value and this can be
+    done easiest by pushing the values after switching the SP and then doing a complete pop
+    context. (Required change: r24/25 is the topmost entry in the pushed context.)
+    Consequently, the switch functions and the task stack preparation would not push r24/25
+    as part of the context.
+      Going back to a context:
+    If task ID stays same: do not switch SP, pop all, reti.
+    If task ID changes:
+        If eventVec of new task is null
+            Switch SP, pop all, reti
+        If eventVec of new task is not null
+            Switch SP, push eventVec, clear eventVec, pop all, reti
+
+Why do we not have type \ident{eventMask\_t} and leave it to the user if he needs
+8, 16 or 32 events? The complexity of stack handling for passing the event
+mask parameters hence and force would require quite complex \#if switches
+which would make the code ugly. It's however basically possible without
+conceptual changes.
+
+Explain the flag-meaning of \ident{task.postedEventVec}, how it tracks from which
+state a task comes from and how it determines what the return in r24/25 to
+the caller
+
+Producer-Consumer patterns like
+\begin{lstlisting}[float, caption={Deadlock situation in a producer/consumer implementation},
+label=lstProducerConsumer, captionpos=b]
+taskProducer()
+{
+    while(rtos_waitForEvent(myEvtStartToProduce))
+    {
+        /* Generate the shared, produced data. */
+        ...
+
+        /* Signal "data available". */
+        rtos_sendEvent(myEvtStartToConsume);
+    }
+}
+
+taskConsumer()
+{
+    while(rtos_waitForEvent(myEvtStartToComsume))
+    {
+        /* Evaluate the shared, produced data. */
+        ...
+
+        /* Signal termination. */
+        rtos_sendEvent(myEvtStartToProduce);
+    }
+}
+\end{lstlisting}
+will run only if both tasks have same priority and no round robin characteristics.
+Otherwise we'd need an atomic combination of setting events and suspending with waiting for
+other events. If the consumer had e.g. a higher priority as the producer, it could be
+started in the instance the producer posts the event "data available". When it would post
+the event "start next production cycle", this event would be lost as the producer is not
+yet listening to this event. At this time the producer's program counter still points into
+the middle of its sendEvent method - the lower priority task had no chance to reach the call
+of \ident{rtos\_waitForEvent} yet.
+
+In practice we often have a loose coupling between consumer and producer. Consuming the
+data is considered fast in comparison to the production cycle and backward feedback is not
+implemented. Principally, data can be lost but the probability is low enough to neglect
+this risk. An example can be an interrupt driven I/O operation. Each time the ADC has
+completed a conversion is sets an event and a task of high priority reads the data and
+processes it:
+\begin{lstlisting}[float, caption=Usage of application interrupts,
+label=lstSampleISRForADC, captionpos=b]
+taskReadADC()
+{
+    while(rtos_waitForEvent(myEvtADCConversionReady))
+    {
+        /* The ADC is read and retriggered for the next conversion. */
+        x = readADC();
+        
+        /* The read value is low pass filtered and put into a global variable from where it
+           is processed by another, slower, regular task. The slower task is of lower
+           priority, therefore we need no mutex operation here in this task. */
+        globalY = antiAliasFilter(x);
+    }        
+}
+\end{lstlisting}
+
+
